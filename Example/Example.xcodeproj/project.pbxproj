@@ -7,11 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04C9F0EC2A557B21009987CE /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 04C9F0EB2A557B21009987CE /* Lottie */; };
 		080864BC2A4C94F700D70F30 /* Samples in Resources */ = {isa = PBXBuildFile; fileRef = 2E3EEB372763C68C00287EEA /* Samples */; };
 		080864BE2A4C955F00D70F30 /* Lottie.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 080864BD2A4C955F00D70F30 /* Lottie.framework */; };
 		080864BF2A4C955F00D70F30 /* Lottie.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 080864BD2A4C955F00D70F30 /* Lottie.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		0861BBCD2898964400C3FC66 /* Lottie.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0861BBCC2898964400C3FC66 /* Lottie.framework */; };
-		0861BBCE2898964400C3FC66 /* Lottie.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0861BBCC2898964400C3FC66 /* Lottie.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		08BBA7442A4C948F00974DA7 /* tvOSExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BBA7432A4C948F00974DA7 /* tvOSExampleApp.swift */; };
 		08BBA7462A4C948F00974DA7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BBA7452A4C948F00974DA7 /* ContentView.swift */; };
 		08BBA7482A4C949000974DA7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 08BBA7472A4C949000974DA7 /* Assets.xcassets */; };
@@ -45,17 +44,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				080864BF2A4C955F00D70F30 /* Lottie.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0861BBCF2898964400C3FC66 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				0861BBCE2898964400C3FC66 /* Lottie.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -106,9 +94,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E6DBDFB27723A7300EBD89E /* EpoxyLayoutGroups in Frameworks */,
-				0861BBCD2898964400C3FC66 /* Lottie.framework in Frameworks */,
 				2E6DBDF727723A7300EBD89E /* Epoxy in Frameworks */,
 				2E6DBDF927723A7300EBD89E /* EpoxyCollectionView in Frameworks */,
+				04C9F0EC2A557B21009987CE /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -248,7 +236,6 @@
 				2E9E77A827602BD400C84BA3 /* Sources */,
 				2E9E77A927602BD400C84BA3 /* Frameworks */,
 				2E9E77AA27602BD400C84BA3 /* Resources */,
-				0861BBCF2898964400C3FC66 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -259,6 +246,7 @@
 				2E6DBDF627723A7300EBD89E /* Epoxy */,
 				2E6DBDF827723A7300EBD89E /* EpoxyCollectionView */,
 				2E6DBDFA27723A7300EBD89E /* EpoxyLayoutGroups */,
+				04C9F0EB2A557B21009987CE /* Lottie */,
 			);
 			productName = iOS;
 			productReference = 2E9E77AC27602BD400C84BA3 /* Example (iOS).app */;
@@ -777,6 +765,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		04C9F0EB2A557B21009987CE /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Lottie;
+		};
 		2E6DBDF627723A7300EBD89E /* Epoxy */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 2EC6E5042763D8FF002E091C /* XCRemoteSwiftPackageReference "epoxy-ios" */;

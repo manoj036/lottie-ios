@@ -13,18 +13,22 @@ public struct LottieView: UIViewConfiguringSwiftUIView {
 
   // MARK: Lifecycle
 
+    var currentMarker = "0"
+
   public init(
     animation: LottieAnimation?,
     imageProvider: AnimationImageProvider? = nil,
     textProvider: AnimationTextProvider? = nil,
     fontProvider: AnimationFontProvider? = nil,
     configuration: LottieConfiguration = .shared,
+    valueProviders: [String: AnyValueProvider] = [:],
     accessibilityLabel: String? = nil)
   {
     self.animation = animation
     self.imageProvider = imageProvider
     self.textProvider = textProvider
     self.fontProvider = fontProvider
+    self.valueProviders = valueProviders
     self.configuration = configuration
     self.accessibilityLabel = accessibilityLabel
   }
@@ -33,12 +37,18 @@ public struct LottieView: UIViewConfiguringSwiftUIView {
 
   public var body: some View {
     LottieAnimationView.swiftUIView {
-      LottieAnimationView(
+      let view = LottieAnimationView(
         animation: animation,
         imageProvider: imageProvider,
         textProvider: textProvider ?? DefaultTextProvider(),
         fontProvider: fontProvider ?? DefaultFontProvider(),
-        configuration: configuration)
+        configuration: configuration
+      )
+
+        for (key, provider) in valueProviders {
+            view.setValueProvider(provider, keypath: AnimationKeypath(keypath: key))
+        }
+        return view
     }
     .sizing(sizing)
     .configure { context in
@@ -57,6 +67,16 @@ public struct LottieView: UIViewConfiguringSwiftUIView {
       // so we assume they are not.
     }
     .configurations(configurations)
+    .onAppear {
+        LottieAnimationView(
+          animation: animation,
+          imageProvider: imageProvider,
+          textProvider: textProvider ?? DefaultTextProvider(),
+          fontProvider: fontProvider ?? DefaultFontProvider(),
+          configuration: configuration
+        )
+        .logHierarchyKeypaths()
+      }
   }
 
   /// Returns a copy of this `LottieView` updated to have the given closure applied to its
@@ -69,6 +89,12 @@ public struct LottieView: UIViewConfiguringSwiftUIView {
     }
     return copy
   }
+
+    public func playToNextMarker() -> Self {
+        configure { view in
+            view.play(marker: "1")
+        }
+    }
 
   /// Returns a copy of this view that can be resized by scaling its animation to fit the size
   /// offered by its parent.
@@ -107,6 +133,8 @@ public struct LottieView: UIViewConfiguringSwiftUIView {
   private let imageProvider: Lottie.AnimationImageProvider?
   private let textProvider: Lottie.AnimationTextProvider?
   private let fontProvider: Lottie.AnimationFontProvider?
+  private let valueProviders: [String: AnyValueProvider]
+
   private let configuration: LottieConfiguration
   private var sizing = SwiftUIMeasurementContainerStrategy.automatic
 }
