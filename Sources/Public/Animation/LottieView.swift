@@ -68,16 +68,6 @@ public struct LottieView: UIViewConfiguringSwiftUIView {
       // so we assume they are not.
     }
     .configurations(configurations)
-    .onAppear {
-        LottieAnimationView(
-          animation: animation,
-          imageProvider: imageProvider,
-          textProvider: textProvider ?? DefaultTextProvider(),
-          fontProvider: fontProvider ?? DefaultFontProvider(),
-          configuration: configuration
-        )
-        .logHierarchyKeypaths()
-      }
     .onTapGesture {
         let markerCount = animation?.markers?.count ?? 0
         if position < markerCount - 1 {

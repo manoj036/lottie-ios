@@ -15,6 +15,7 @@ struct AnimationPreviewView: View {
       // this sort of spelling without a forced-unwrap?
         LottieView(
             animation: LottieAnimation.named(animationName)!,
+            imageProvider: BundleImageProvider(bundle: Bundle.main, searchPath: "/Images"),
             textProvider: DictionaryTextProvider(
                 [
                     "**": "a \n b \n c",
