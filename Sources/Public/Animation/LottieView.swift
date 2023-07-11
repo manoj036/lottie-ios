@@ -14,7 +14,7 @@ public struct LottieView: UIViewConfiguringSwiftUIView {
   // MARK: Lifecycle
 
     @State
-    var currentMarker = 0
+    var position = 0
 
   public init(
     animation: LottieAnimation?,
@@ -79,12 +79,16 @@ public struct LottieView: UIViewConfiguringSwiftUIView {
         .logHierarchyKeypaths()
       }
     .onTapGesture {
-        currentMarker += 1
-    }
-    .onChange(of: currentMarker) { newValue in
-        configurations.append { context in
-            context.view.play(fromMarker: "\(currentMarker)" , toMarker: "\(currentMarker + 1)")
+        let markerCount = animation?.markers?.count ?? 0
+        if position < markerCount - 1 {
+            position += 1
         }
+    }
+    .onChange(of: position) { _ in
+        playNextMarker()
+    }
+    .onAppear {
+        playNextMarker()
     }
   }
 
@@ -107,17 +111,27 @@ public struct LottieView: UIViewConfiguringSwiftUIView {
     return copy
   }
 
-  /// Returns a copy of this animation view that loops its animation whenever visible by playing
-  /// whenever it is updated with a `loopMode` of `.loop` if not already playing.
-  public func looping() -> Self {
-    configure { view in
-      if !view.isAnimationPlaying {
-          view.play(fromMarker: "\(currentMarker)" , toMarker: "\(currentMarker + 1)")
-      }
+    var next: String? {
+        let markers = animation?.markers ?? []
+        return position < markers.count ? markers[position].name : nil
     }
-  }
 
-  /// Returns a copy of this animation view with its `AnimationView` updated to have the provided
+    func playNextMarker() {
+        let markers = animation?.markers ?? []
+        let current = markers[safe: position - 1]
+        if let current {
+            configurations.append { context in
+                context.view.play(marker: current.name)
+            }
+        }
+        else {
+            configurations.append { context in
+                context.view.play()
+            }
+        }
+    }
+
+    /// Returns a copy of this animation view with its `AnimationView` updated to have the provided
   /// background behavior.
   public func backgroundBehavior(_ value: LottieBackgroundBehavior) -> Self {
     configure { view in
@@ -144,3 +158,12 @@ public struct LottieView: UIViewConfiguringSwiftUIView {
 }
 
 #endif
+
+extension Array {
+    subscript(safe index: Index) -> Element? {
+        if index < count, index >= 0 {
+            return self[index]
+        }
+        return nil
+    }
+}

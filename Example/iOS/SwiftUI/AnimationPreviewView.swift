@@ -30,7 +30,6 @@ struct AnimationPreviewView: View {
             ]
         )
         .resizable()
-        .looping()
     }
     .navigationTitle(animationName.components(separatedBy: "/").last!)
     .frame(maxWidth: .infinity, maxHeight: .infinity)
