@@ -8,12 +8,13 @@ import SwiftUI
 // MARK: - LottieView
 
 /// A wrapper which exposes Lottie's `LottieAnimationView` to SwiftUI
-@available(iOS 13.0, tvOS 13.0, *)
+@available(iOS 14.0, tvOS 14.0, *)
 public struct LottieView: UIViewConfiguringSwiftUIView {
 
   // MARK: Lifecycle
 
-    var currentMarker = "0"
+    @State
+    var currentMarker = 0
 
   public init(
     animation: LottieAnimation?,
@@ -77,6 +78,14 @@ public struct LottieView: UIViewConfiguringSwiftUIView {
         )
         .logHierarchyKeypaths()
       }
+    .onTapGesture {
+        currentMarker += 1
+    }
+    .onChange(of: currentMarker) { newValue in
+        configurations.append { context in
+            context.view.play(fromMarker: "\(currentMarker)" , toMarker: "\(currentMarker + 1)")
+        }
+    }
   }
 
   /// Returns a copy of this `LottieView` updated to have the given closure applied to its
@@ -89,12 +98,6 @@ public struct LottieView: UIViewConfiguringSwiftUIView {
     }
     return copy
   }
-
-    public func playToNextMarker() -> Self {
-        configure { view in
-            view.play(marker: "1")
-        }
-    }
 
   /// Returns a copy of this view that can be resized by scaling its animation to fit the size
   /// offered by its parent.
@@ -109,7 +112,7 @@ public struct LottieView: UIViewConfiguringSwiftUIView {
   public func looping() -> Self {
     configure { view in
       if !view.isAnimationPlaying {
-        view.play(fromProgress: 0, toProgress: 1, loopMode: .loop)
+          view.play(fromMarker: "\(currentMarker)" , toMarker: "\(currentMarker + 1)")
       }
     }
   }
@@ -124,6 +127,7 @@ public struct LottieView: UIViewConfiguringSwiftUIView {
 
   // MARK: Internal
 
+    @State
   var configurations = [SwiftUIUIView<LottieAnimationView, Void>.Configuration]()
 
   // MARK: Private
